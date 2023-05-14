@@ -1,10 +1,32 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 const app = express();
+import cors from "cors";
+import morgan from "morgan";
 
 const PORT = process.env.PORT || 8000;
 
-import cors from "cors";
-import morgan from "morgan";
+//middlewares
+app.use(cors());
+app.use(express.json());
+app.use(morgan("dev"));
+
+//db connect
+import { connectDb } from "./src/config/dbConfig.js";
+connectDb();
+
+//routers
+import adminRouter from "./src/routers/adminRouter.js";
+app.use("/api/v1/admin", adminRouter);
+
+app.use("/", (req, res) => {
+  res.json({
+    message: " You do not have access here",
+  });
+});
+
 //uncaught routers
 app.use("*", (req, res, next) => {
   const error = {
@@ -13,8 +35,6 @@ app.use("*", (req, res, next) => {
   };
   next(error);
 });
-
-//middlwares
 
 app.listen(PORT, (error) => {
   error

@@ -1,0 +1,12 @@
+//admin Registration
+POST http://localhost:8000/api/v1/admin
+Content-Type: application/json
+
+{
+    "fName": "Manish",
+    "lName": "Khadgi",
+    "email": "manishkhadgi123@gmail.com",
+    "phone": "0450341111",
+    "address": "113/36 Cowper St",
+    "password": "12345"
+}
